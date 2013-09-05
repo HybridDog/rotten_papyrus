@@ -1,7 +1,3 @@
---------------------------------------Rotten Papyrus----------------------------------------
---Textures (edited with gimp) from gamiano.de
---nodebox from 3dforniture
-
 local t1 = os.clock()
 local PAPYRUS_INTERVALL = 600
 local PAPYRUS_CHANCE = 10
