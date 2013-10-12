@@ -2,6 +2,12 @@ local t1 = os.clock()
 local PAPYRUS_INTERVALL = 600
 local PAPYRUS_CHANCE = 10
 
+local papyrus_list = {
+	{":default:papyrus", "Papyrus", "rotten_papyrus.png", "default:papyrus"},
+	{"rotten_papyrus:dried1", "", "rotten_papyrus_dried1.png", "default:papyrus"},
+	{"rotten_papyrus:dried2", "", "rotten_papyrus_dried2.png", "default:paper"}
+}
+
 local PAPYRUS_NODEBOX = {
 	type = "fixed",
 	fixed = {
@@ -26,24 +32,33 @@ local PAPYRUS_NODEBOX = {
 	},
 }
 
-local function papyrusnode(name, desc, img, drop)
-	minetest.register_node(name,{
-			description	=	desc,
-			drawtype	=	"nodebox",
-				tiles	=	{img},
-			paramtype	=	"light",
-	is_ground_content	=	true,
-			walkable	=	false,
-		drop 			= 	drop,
-		node_box 		= 	PAPYRUS_NODEBOX,
-		groups 			= 	{snappy = 3,flammable = 2},
-		sounds 			= 	default.node_sound_leaves_defaults(),
+
+local tmp = minetest.registered_nodes["default:papyrus"]
+local pt = tmp.paramtype
+local wk = tmp.walkable
+local gt = tmp.is_ground_content
+local gp = tmp.groups
+local sd = tmp.sounds
+
+for _,p in ipairs(papyrus_list) do
+
+	minetest.register_node(p[1], {
+		description = p[2],
+		tiles = {p[3]},
+		drop = p[4],
+
+		drawtype = "nodebox",
+		node_box = PAPYRUS_NODEBOX,
+
+		paramtype = pt,
+		walkable = wk,
+		is_ground_content = gt,
+		groups = gp,
+		sounds = sd,
 	})
+
 end
 
-papyrusnode(":default:papyrus", "Papyrus", "rotten_papyrus.png", "default:papyrus")
-papyrusnode("rotten_papyrus:dried1", "", "rotten_papyrus_dried1.png", "default:papyrus")
-papyrusnode("rotten_papyrus:dried2", "", "rotten_papyrus_dried2.png", "default:paper")
 
 local function allow_papyrus(pos)
 	if minetest.find_node_near(pos, 2, {"default:water_source","default:water_flowing"})
