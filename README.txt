@@ -4,3 +4,4 @@
 
 TODO:
 — add rotten papyrus
+— update the way of getting paper
