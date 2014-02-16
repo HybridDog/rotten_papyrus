@@ -1,14 +1,16 @@
 local t1 = os.clock()
-local PAPYRUS_INTERVALL = 600
-local PAPYRUS_CHANCE = 10
 
-local papyrus_list = {
+rotten_papyrus = rotten_papyrus or {}
+rotten_papyrus.interval = 600
+rotten_papyrus.chance = 10
+
+rotten_papyrus.list = {
 	{":default:papyrus", "Papyrus", "rotten_papyrus.png", "default:papyrus"},
 	{"rotten_papyrus:dried1", "", "rotten_papyrus_dried1.png", "default:papyrus"},
 	{"rotten_papyrus:dried2", "", "rotten_papyrus_dried2.png", "default:paper"}
 }
 
-local PAPYRUS_NODEBOX = {
+rotten_papyrus.NODEBOX = {
 	type = "fixed",
 	fixed = {
 		--papyrus 1
@@ -40,7 +42,7 @@ local gt = tmp.is_ground_content
 local gp = tmp.groups
 local sd = tmp.sounds
 
-for _,p in ipairs(papyrus_list) do
+for _,p in ipairs(rotten_papyrus.list) do
 
 	minetest.register_node(p[1], {
 		description = p[2],
@@ -48,7 +50,7 @@ for _,p in ipairs(papyrus_list) do
 		drop = p[4],
 
 		drawtype = "nodebox",
-		node_box = PAPYRUS_NODEBOX,
+		node_box = rotten_papyrus.NODEBOX,
 
 		paramtype = pt,
 		walkable = wk,
@@ -60,7 +62,7 @@ for _,p in ipairs(papyrus_list) do
 end
 
 
-local function allow_papyrus(pos)
+function rotten_papyrus.allow_papyrus(pos)
 	if minetest.find_node_near(pos, 2, {"default:water_source","default:water_flowing"})
 	or minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "default:papyrus" then
 		return true
@@ -70,11 +72,11 @@ end
 
 minetest.register_abm ({
 	nodenames = {"default:papyrus","rotten_papyrus:dried1","rotten_papyrus:dried2"},
-	interval = PAPYRUS_INTERVALL,
-	chance = PAPYRUS_CHANCE,
+	interval = rotten_papyrus.interval,
+	chance = rotten_papyrus.chance,
 	action = function (pos, node)
 		local nam = node.name
-		local papyrus_allowed = allow_papyrus(pos)
+		local papyrus_allowed = rotten_papyrus.allow_papyrus(pos)
 
 ---------------fault
 		if nam == "default:papyrus" then
