@@ -41,6 +41,7 @@ local wk = tmp.walkable
 local gt = tmp.is_ground_content
 local gp = tmp.groups
 local sd = tmp.sounds
+local adn = tmp.after_dig_node
 
 for _,p in ipairs(rotten_papyrus.list) do
 
@@ -57,6 +58,7 @@ for _,p in ipairs(rotten_papyrus.list) do
 		is_ground_content = gt,
 		groups = gp,
 		sounds = sd,
+		after_dig_node = adn,
 	})
 
 end
