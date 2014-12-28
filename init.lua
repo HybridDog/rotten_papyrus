@@ -78,6 +78,13 @@ minetest.register_abm ({
 	chance = rotten_papyrus.chance,
 	action = function (pos, node)
 		local nam = node.name
+
+---------------stirbt ab
+		if nam == "rotten_papyrus:dried2" then
+			minetest.remove_node(pos)
+			return
+		end
+
 		local papyrus_allowed = rotten_papyrus.allow_papyrus(pos)
 
 ---------------fault
@@ -85,22 +92,16 @@ minetest.register_abm ({
 			if not papyrus_allowed then
 				minetest.add_node(pos, {name = "rotten_papyrus:dried1"})
 			end
-			return
-		end
 
 ---------------fault mehr
-		if nam == "rotten_papyrus:dried1" then
+		else
 			if papyrus_allowed then
 				minetest.add_node(pos, {name = "default:papyrus"})
 			else
 				minetest.add_node(pos, {name = "rotten_papyrus:dried2"})
 			end
-			return
 		end
-
----------------stirbt ab
-		minetest.remove_node(pos)
 	end,
 })
 
-print(string.format("[rotten_papyrus] loaded after ca. %.2fs", os.clock() - t1))
+minetest.log("info", string.format("[rotten_papyrus] loaded after ca. %.2fs", os.clock() - t1))
