@@ -1,6 +1,7 @@
 local t1 = os.clock()
 
-rotten_papyrus = rotten_papyrus or {}
+local rotten_papyrus = {}
+--rotten_papyrus = rawget(_G, "rotten_papyrus") or {}
 rotten_papyrus.interval = 600
 rotten_papyrus.chance = 10
 
