@@ -6,9 +6,19 @@ rotten_papyrus.interval = 600
 rotten_papyrus.chance = 10
 
 rotten_papyrus.list = {
-	{":default:papyrus", "Papyrus", "rotten_papyrus.png", "default:papyrus"},
-	{"rotten_papyrus:dried1", "", "rotten_papyrus_dried1.png", "default:papyrus"},
-	{"rotten_papyrus:dried2", "", "rotten_papyrus_dried2.png", "default:paper"}
+	{":default:papyrus",
+		texture = "rotten_papyrus.png",
+	},
+	{"rotten_papyrus:dried1",
+		description = "",
+		texture = "rotten_papyrus_dried1.png",
+		drop = "default:papyrus"
+	},
+	{"rotten_papyrus:dried2",
+		description = "",
+		texture = "rotten_papyrus_dried2.png",
+		drop = "default:paper"
+	}
 }
 
 rotten_papyrus.NODEBOX = {
@@ -36,32 +46,19 @@ rotten_papyrus.NODEBOX = {
 }
 
 
-local tmp = minetest.registered_nodes["default:papyrus"]
-local pt = tmp.paramtype
-local wk = tmp.walkable
-local gt = tmp.is_ground_content
-local gp = tmp.groups
-local sd = tmp.sounds
-local adn = tmp.after_dig_node
+for _,p in pairs(rotten_papyrus.list) do
+	local tmp = table.copy(minetest.registered_nodes["default:papyrus"])
+	tmp.description = p.description or tmp.description
+	tmp.tiles = {p.texture}
+	tmp.inventory_image = nil
+	tmp.wield_image = nil
+	tmp.drop = p.drop or tmp.drop
 
-for _,p in ipairs(rotten_papyrus.list) do
+	tmp.drawtype = "nodebox"
+	tmp.node_box = rotten_papyrus.NODEBOX
+	tmp.selection_box = rotten_papyrus.NODEBOX
 
-	minetest.register_node(p[1], {
-		description = p[2],
-		tiles = {p[3]},
-		drop = p[4],
-
-		drawtype = "nodebox",
-		node_box = rotten_papyrus.NODEBOX,
-
-		paramtype = pt,
-		walkable = wk,
-		is_ground_content = gt,
-		groups = gp,
-		sounds = sd,
-		after_dig_node = adn,
-	})
-
+	minetest.register_node(p[1], tmp)
 end
 
 
@@ -91,16 +88,18 @@ minetest.register_abm ({
 ---------------fault
 		if nam == "default:papyrus" then
 			if not papyrus_allowed then
-				minetest.add_node(pos, {name = "rotten_papyrus:dried1"})
+				node.name = "rotten_papyrus:dried1"
+				minetest.add_node(pos, node)
 			end
 
 ---------------fault mehr
 		else
 			if papyrus_allowed then
-				minetest.add_node(pos, {name = "default:papyrus"})
+				node.name = "default:papyrus"
 			else
-				minetest.add_node(pos, {name = "rotten_papyrus:dried2"})
+				node.name = "rotten_papyrus:dried2"
 			end
+			minetest.add_node(pos, node)
 		end
 	end,
 })
