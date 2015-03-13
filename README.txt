@@ -3,5 +3,5 @@
 — nodebox from 3dforniture
 
 TODO:
-— add rotten papyrus
+— add rotten papyrus?
 — update the way of getting paper
