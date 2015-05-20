@@ -1,0 +1,3 @@
+Textures (edited with gimp) from gamiano.de
+nodebox from 3dforniture (GPL)
+rest WTFPL
