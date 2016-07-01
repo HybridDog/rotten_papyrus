@@ -64,13 +64,13 @@ end
 
 function rotten_papyrus.allow_papyrus(pos)
 	if minetest.find_node_near(pos, 2, {"default:water_source","default:water_flowing"})
-	or minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "default:papyrus" then
+	or minetest.get_node{x=pos.x, y=pos.y-1, z=pos.z}.name == "default:papyrus" then
 		return true
 	end
 	return false
 end
 
-minetest.register_abm ({
+minetest.register_abm {
 	nodenames = {"default:papyrus","rotten_papyrus:dried1","rotten_papyrus:dried2"},
 	interval = rotten_papyrus.interval,
 	chance = rotten_papyrus.chance,
@@ -102,6 +102,6 @@ minetest.register_abm ({
 			minetest.add_node(pos, node)
 		end
 	end,
-})
+}
 
 minetest.log("info", string.format("[rotten_papyrus] loaded after ca. %.2fs", os.clock() - t1))
