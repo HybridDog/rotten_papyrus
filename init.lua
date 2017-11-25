@@ -1,4 +1,5 @@
-local t1 = os.clock()
+local load_time_start = minetest.get_us_time()
+
 
 local rotten_papyrus = {}
 --rotten_papyrus = rawget(_G, "rotten_papyrus") or {}
@@ -104,4 +105,11 @@ minetest.register_abm {
 	end,
 }
 
-minetest.log("info", string.format("[rotten_papyrus] loaded after ca. %.2fs", os.clock() - t1))
+
+local time = (minetest.get_us_time() - load_time_start) / 1000000
+local msg = "[rotten_papyrus] loaded after ca. " .. time .. " seconds."
+if time > 0.01 then
+	print(msg)
+else
+	minetest.log("info", msg)
+end
